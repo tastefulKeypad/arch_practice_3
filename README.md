@@ -1,0 +1,35 @@
+# Домашнее задание 03: Проектирование и оптимизация реляционной базы данных
+
+Цель работы: Получить практические навыки работы с PostgreSQL, проектирования схемы БД, создания индексов и оптимизации запросов.
+
+Вариант 21: Система управления арендой автомобилей https://www.hertz.com/
+
+БД содержит следующие схемы:
+- Пользователь
+- Автомобиль
+- Аренда
+
+Реализованы SQL запросы для операций:
+- [x] Создание нового пользователя
+- [x] Поиск пользователя по логину
+- [x] Поиск пользователя по маске имя и фамилии
+- [x] Добавление автомобиля в парк
+- [x] Получение списка доступных автомобилей
+- [x] Поиск автомобилей по классу
+- [x] Создание аренды
+- [x] Получение активных аренд пользователя
+- [x] Завершение аренды
+- [x] Получение истории аренд
+
+# Запуск Docker контейнера
+```
+git clone https://github.com/tastefulKeypad/arch_practice_3.git
+cd arch_practice_3
+docker build -t arch_practice_3_image .
+docker run -d --name arch_practice_3_container -p 5432:5432 arch_practice_3_image:latest
+
+# Инициализируйте БД и функции запросов
+docker exec -it arch_practice_3_container psql -U postgres -f /tmp/schema.sql
+docker exec -it arch_practice_3_container psql -U postgres -f /tmp/data.sql
+docker exec -it arch_practice_3_container psql -U postgres -f /tmp/queries.sql
+```
