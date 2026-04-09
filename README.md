@@ -21,9 +21,51 @@
 - [x] Завершение аренды
 - [x] Получение истории аренд
 
-# Запуск Docker контейнера
+## Структура проекта
+```
+arch_practice_3
+├── api
+│   ├── db - Содержит модели объектов для БД
+│   ├── endpoints - Содержит endpoint'ы API
+│   └── schemas - Содержит схемы объектов для валидации pydantic
+└── psql - Содержит в себе SQL скрипты и файл с описанием оптимизаций с планами выполнения
+
+```
+
+# Запуск проекта
 ```
 git clone https://github.com/tastefulKeypad/arch_practice_3.git
 cd arch_practice_3
 docker-compose up -d --build
+```
+# Полная очистка проекта
+```
+docker-compose down -v
+docker rmi arch_practice_3_db_image:latest 
+docker rmi arch_practice_3_api_image:latest
+```
+
+## Примеры использования
+После запуска на ```localhost:8000/docs``` будет доступна интерактивная OPENAPI документация проекта.
+Так же можно подключиться напрямую к БД при запущенном контейнере: 
+```
+docker exec -it arch_practice_3_db_container psql -U postgres -d psql_db
+```
+
+Пример вывода:
+```
+psql_db=# SELECT * FROM cars;
+ id | carclass | price | capacity |  name   
+----+----------+-------+----------+---------
+  1 |        1 |  1500 |        2 | Bugatti
+  2 |        2 |   800 |        4 | Maybach
+  3 |        3 |   480 |        2 | Porsche
+  4 |        4 |   350 |        4 | Lexus
+  5 |        4 |   300 |        4 | Tesla
+  6 |        4 |   285 |        4 | Jaguar
+  7 |        5 |   200 |        4 | Ford
+  8 |        5 |   185 |        4 | Honda
+  9 |        6 |   100 |        4 | Skoda
+ 10 |        6 |    90 |        4 | Hyundai
+(10 rows)
 ```
