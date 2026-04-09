@@ -2,7 +2,22 @@
 - EXPLAIN ANALYZE применялся не напрямую к функции, а к её внутреннему телу
 - После каждого EXPLAIN ANALYZE запроса производился перезапуск docker контейнера для сброса кэша
 
-# До оптимизации unoptimizedQueries.sql + отсутствие INDEXов
+# Таблица таймингов
+| Function                | Base plan (ms) | Optimized plan (ms) | Base exec (ms) | Optimized exec (ms) |
+|-------------------------|----------------|---------------------|----------------|---------------------|
+| GetUserByEmail          | 396            | 395                 | 83             | 44                  |
+| GetUserByNameAndSurname | 331            | 359                 | 125            | 45                  |
+| GetCarByClass           | 430            | 365                 | 453            | 64                  |
+| GetAvailableCars        | 413            | 611                 | 207            | 234                 |
+| GetRentActiveByUserId   | 328            | 508                 | 154            | 38                  |
+| GetRentHistoryByUserId  | 392            | 401                 | 112            | 43                  |
+
+# Выводы
+Создание индексов значительно ускоряет выполнение запроса к БД. В теории мы переходим от sequential поиска при котором последовательно проверяется каждая строка в таблице с временной сложности O(n) к index поиску который под капотом представляет из себя сбалансированное дерево с временной сложностью O(log n). Однако данные замеры проводились в таблицах с количеством строк n=10, при более больших значениях n разница во времени выполнения будет выражена значительно сильнее.
+
+Ниже приведены результаты запросов EXPLAIN ANALYZE.
+
+### До оптимизации unoptimizedQueries.sql + отсутствие INDEXов
 EXPLAIN ANALYZE SELECT * FROM GetUserByEmail('user2@example.com');
 Index Scan using users_email_key on users u  (cost=0.14..8.16 rows=1 width=957) (actual time=0.031..0.032 rows=1.00 loops=1)
    Index Cond: ((email)::text = 'user2@example.com'::text)
@@ -94,7 +109,7 @@ EXPLAIN ANALYZE SELECT * FROM GetRentHistoryByUserId(2);
  Execution Time: 0.112 ms
 
 
-# После оптимизации queries.sql
+### После оптимизации queries.sql
 EXPLAIN ANALYZE SELECT * FROM GetUserByEmail('user2@example.com');
  Index Scan using idxusersemail on users u  (cost=0.14..8.16 rows=1 width=957) (actual time=0.023..0.023 rows=1.00 loops=1)
   Index Cond: ((email)::text = 'user2@example.com'::text)

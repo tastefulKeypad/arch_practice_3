@@ -46,13 +46,12 @@ docker rmi arch_practice_3_api_image:latest
 ```
 
 ## Примеры использования
-После запуска на ```localhost:8000/docs``` будет доступна интерактивная OPENAPI документация проекта.
-Так же можно подключиться напрямую к БД при запущенном контейнере: 
+При запущенном контейнере можно подключиться напрямую к БД:
 ```
 docker exec -it arch_practice_3_db_container psql -U postgres -d psql_db
 ```
 
-Пример вывода:
+Пример вывода SQL запроса:
 ```
 psql_db=# SELECT * FROM cars;
  id | carclass | price | capacity |  name   
@@ -69,3 +68,12 @@ psql_db=# SELECT * FROM cars;
  10 |        6 |    90 |        4 | Hyundai
 (10 rows)
 ```
+
+Помимо этого на ```localhost:8000/docs``` будет доступна интерактивная OPENAPI документация API.
+Чтобы зайти под администратором:
+username: admin@example.com 
+password: admin
+
+Чтобы зайти под пользователем:
+username: user1@example.com
+password: user
