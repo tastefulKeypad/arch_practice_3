@@ -30,7 +30,7 @@ def add_car(
 
     Must be admin to use this endpoint
     """
-    if not tokenUser.isAdmin:
+    if not tokenUser.isadmin:
         RaiseExceptionAdmin()
 
     newCar = models.Car(**car.model_dump())

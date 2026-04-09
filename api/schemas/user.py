@@ -5,7 +5,7 @@ class UserBase(BaseModel):
     email: EmailStr
     name: str
     surname: str
-    isAdmin: bool
+    isadmin: bool
 
 class UserCreate(UserBase):
     """Schema for creating a new user"""

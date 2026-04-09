@@ -8,7 +8,7 @@ class User(Base):
     name     = Column(String,  nullable=False)
     surname  = Column(String,  nullable=False)
     password = Column(String,  nullable=False)
-    isAdmin  = Column(Boolean, nullable=False)
+    isadmin  = Column(Boolean, nullable=False)
 
 class Car(Base):
     __tablename__ = "cars"

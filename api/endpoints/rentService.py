@@ -34,7 +34,7 @@ def add_rent(
     Must be normal user to use this endpoint
     """
     # Check that user is NOT admin, date is correct and car is available
-    if tokenUser.isAdmin:
+    if tokenUser.isadmin:
         RaiseExceptionUser()
     if (dateEnd < dateStart):
         RaiseExceptionInvalidDateInput()
@@ -77,7 +77,7 @@ def get_active_rent(
     Admins can query for any user id
     """
     # Check that user is NOT admin, date is correct and car is available
-    if not tokenUser.isAdmin:
+    if not tokenUser.isadmin:
         if tokenUser.id != userId:
             RaiseExceptionAdmin()
         dbRents = db.query(models.Rent).filter(
@@ -110,7 +110,7 @@ def get_rent_history(
 
     Admins can query for any user id
     """
-    if not tokenUser.isAdmin:
+    if not tokenUser.isadmin:
         if tokenUser.id != userId:
             RaiseExceptionAdmin()
         dbRents = db.query(models.Rent).filter(
@@ -139,7 +139,7 @@ def finish_rent(
 
     Must be admin to use this endpoint
     """
-    if not tokenUser.isAdmin:
+    if not tokenUser.isadmin:
         RaiseExceptionAdmin()
 
     dbRent = db.query(models.Rent).filter(

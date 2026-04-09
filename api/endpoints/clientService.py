@@ -52,7 +52,7 @@ def get_users(
 
     Must be admin to use this endpoint
     """
-    if not tokenUser.isAdmin:
+    if not tokenUser.isadmin:
         RaiseExceptionAdmin()
     return db.query(models.User).all()
 
@@ -69,7 +69,7 @@ def get_user_by_email(
 
     Must be admin to use this endpoint
     """
-    if not tokenUser.isAdmin:
+    if not tokenUser.isadmin:
         RaiseExceptionAdmin()
 
     dbUser = db.query(models.User).filter(
@@ -92,7 +92,7 @@ def get_user_by_name_and_surname(
 
     Must be admin to use this endpoint
     """
-    if not tokenUser.isAdmin:
+    if not tokenUser.isadmin:
         RaiseExceptionAdmin()
 
     dbUser = db.query(models.User).filter(
