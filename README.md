@@ -25,11 +25,5 @@
 ```
 git clone https://github.com/tastefulKeypad/arch_practice_3.git
 cd arch_practice_3
-docker build -t arch_practice_3_image .
-docker run -d --name arch_practice_3_container -p 5432:5432 arch_practice_3_image:latest
-
-# Инициализируйте БД и функции запросов
-docker exec -it arch_practice_3_container psql -U postgres -f /tmp/schema.sql
-docker exec -it arch_practice_3_container psql -U postgres -f /tmp/data.sql
-docker exec -it arch_practice_3_container psql -U postgres -f /tmp/queries.sql
+docker compose up -d
 ```
