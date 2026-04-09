@@ -3,10 +3,10 @@ from datetime import datetime
 
 class RentBase(BaseModel):
     """Base schema with common rent fields"""
-    carId: int
-    userId: int
-    dateStart: datetime
-    dateEnd: datetime
+    carid: int
+    userid: int
+    datestart: datetime
+    dateend: datetime
     status: str
 
 class RentCreate(RentBase):

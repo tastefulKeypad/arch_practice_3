@@ -21,9 +21,9 @@ router = APIRouter(prefix="/rentService", tags=["rentService"])
 # ====================== Endpoints ======================
 @router.post("/add_rent", response_model=schemas.rent.RentResponse)
 def add_rent(
-    carId: int,
-    dateStart: datetime,
-    dateEnd: datetime,
+    carid: int,
+    datestart: datetime,
+    dateend: datetime,
     status: str,
     tokenUser: Annotated[models.User, Depends(GetTokenUser)],
     db: Session = Depends(appdb.GetDB)
@@ -36,26 +36,26 @@ def add_rent(
     # Check that user is NOT admin, date is correct and car is available
     if tokenUser.isadmin:
         RaiseExceptionUser()
-    if (dateEnd < dateStart):
+    if (dateend < datestart):
         RaiseExceptionInvalidDateInput()
     dbCar = db.query(models.Car).filter(
-        models.Car.id == carId
+        models.Car.id == carid
     ).first()
     if not dbCar:
         RaiseExceptionNoCar()
     dbBadCar = db.query(models.Rent).filter(
-        (dateStart < models.Rent.dateEnd) &
-        (dateEnd   > models.Rent.dateStart) &
+        (datestart < models.Rent.dateend) &
+        (dateend   > models.Rent.datestart) &
         (models.Rent.status == "Active") &
-        (models.Rent.carId  == carId)
+        (models.Rent.carid  == carid)
     ).first()
     if dbBadCar:
         RaiseExceptionCarIsReserved()
     newRent = models.Rent(
-        carId = carId,
-        userId = tokenUser.id,
-        dateStart = dateStart,
-        dateEnd = dateEnd,
+        carid = carid,
+        userid = tokenUser.id,
+        datestart = datestart,
+        dateend = dateend,
         status = status
     )
     db.add(newRent)
@@ -65,7 +65,7 @@ def add_rent(
 
 @router.get("/get_active_rent", response_model=List[schemas.rent.RentResponse])
 def get_active_rent(
-    userId: int,
+    userid: int,
     tokenUser: Annotated[models.User, Depends(GetTokenUser)],
     db: Session = Depends(appdb.GetDB)
 ):
@@ -78,28 +78,28 @@ def get_active_rent(
     """
     # Check that user is NOT admin, date is correct and car is available
     if not tokenUser.isadmin:
-        if tokenUser.id != userId:
+        if tokenUser.id != userid:
             RaiseExceptionAdmin()
         dbRents = db.query(models.Rent).filter(
-            (models.Rent.userId == userId) &
+            (models.Rent.userid == userid) &
             (models.Rent.status == "Active")
         ).all()
         return dbRents
 
     dbUser = db.query(models.User).filter(
-        models.User.id == userId
+        models.User.id == userid
     ).first()
     if not dbUser:
         RaiseExceptionNoUser()
     dbRents = db.query(models.Rent).filter(
-        (models.Rent.userId == userId) &
+        (models.Rent.userid == userid) &
         (models.Rent.status == "Active")
     ).all()
     return dbRents
 
 @router.get("/get_rent_history", response_model=List[schemas.rent.RentResponse])
 def get_rent_history(
-    userId: int,
+    userid: int,
     tokenUser: Annotated[models.User, Depends(GetTokenUser)],
     db: Session = Depends(appdb.GetDB)
 ):
@@ -111,20 +111,20 @@ def get_rent_history(
     Admins can query for any user id
     """
     if not tokenUser.isadmin:
-        if tokenUser.id != userId:
+        if tokenUser.id != userid:
             RaiseExceptionAdmin()
         dbRents = db.query(models.Rent).filter(
-            models.Rent.userId == userId
+            models.Rent.userid == userid
         ).all()
         return dbRents
 
     dbUser = db.query(models.User).filter(
-        models.User.id == userId
+        models.User.id == userid
     ).first()
     if not dbUser:
         RaiseExceptionNoUser()
     dbRents = db.query(models.Rent).filter(
-        models.Rent.userId == userId
+        models.Rent.userid == userid
     ).all()
     return dbRents
 

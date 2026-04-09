@@ -39,20 +39,20 @@ paths:
       security:
       - OAuth2PasswordBearer: []
       parameters:
-      - name: carId
+      - name: carid
         in: query
         required: true
         schema:
           type: integer
           title: Carid
-      - name: dateStart
+      - name: datestart
         in: query
         required: true
         schema:
           type: string
           format: date-time
           title: Datestart
-      - name: dateEnd
+      - name: dateend
         in: query
         required: true
         schema:
@@ -94,7 +94,7 @@ paths:
       security:
       - OAuth2PasswordBearer: []
       parameters:
-      - name: userId
+      - name: userid
         in: query
         required: true
         schema:
@@ -132,7 +132,7 @@ paths:
       security:
       - OAuth2PasswordBearer: []
       parameters:
-      - name: userId
+      - name: userid
         in: query
         required: true
         schema:
@@ -362,7 +362,7 @@ paths:
       description: Get all cars with given class
       operationId: get_car_by_class_autoParkService_get_car_by_class_get
       parameters:
-      - name: carClass
+      - name: carclass
         in: query
         required: true
         schema:
@@ -393,14 +393,14 @@ paths:
       description: Get list of all available cars in given time frame
       operationId: check_available_cars_autoParkService_check_available_cars_get
       parameters:
-      - name: dateStart
+      - name: datestart
         in: query
         required: true
         schema:
           type: string
           format: date-time
           title: Datestart
-      - name: dateEnd
+      - name: dateend
         in: query
         required: true
         schema:
@@ -463,7 +463,7 @@ components:
       title: Body_login_for_token_token_post
     CarCreate:
       properties:
-        carClass:
+        carclass:
           type: integer
           title: Carclass
         price:
@@ -479,7 +479,7 @@ components:
           title: Name
       type: object
       required:
-      - carClass
+      - carclass
       - price
       - capacity
       - name
@@ -487,7 +487,7 @@ components:
       description: Schema for creating a new car
     CarResponse:
       properties:
-        carClass:
+        carclass:
           type: integer
           title: Carclass
         price:
@@ -506,7 +506,7 @@ components:
           title: Id
       type: object
       required:
-      - carClass
+      - carclass
       - price
       - capacity
       - name
@@ -524,17 +524,17 @@ components:
       title: HTTPValidationError
     RentResponse:
       properties:
-        carId:
+        carid:
           type: integer
           title: Carid
-        userId:
+        userid:
           type: integer
           title: Userid
-        dateStart:
+        datestart:
           type: string
           format: date-time
           title: Datestart
-        dateEnd:
+        dateend:
           type: string
           format: date-time
           title: Dateend
@@ -546,10 +546,10 @@ components:
           title: Id
       type: object
       required:
-      - carId
-      - userId
-      - dateStart
-      - dateEnd
+      - carid
+      - userid
+      - datestart
+      - dateend
       - status
       - id
       title: RentResponse

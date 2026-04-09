@@ -1,3 +1,6 @@
+volumes:
+  postgres_data:
+
 services:
   db:
     build: ./psql
@@ -5,11 +8,13 @@ services:
     container_name: arch_practice_3_db_container
     ports:
       - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d psql_db"]
       interval: 5s 
-      timeout: 3s 
-      retries: 3
+      timeout: 5s 
+      retries: 5
 
   api:
     depends_on:

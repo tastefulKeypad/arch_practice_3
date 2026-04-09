@@ -51,14 +51,14 @@ def get_all_cars(
 
 @router.get("/get_car_by_class", response_model=List[schemas.car.CarResponse])
 def get_car_by_class(
-    carClass: int,
+    carclass: int,
     db: Session = Depends(appdb.GetDB)
 ):
     """
     Get all cars with given class
     """
     dbCar = db.query(models.Car).filter(
-        models.Car.carClass == carClass
+        models.Car.carclass == carclass
     ).all()
     if not dbCar:
         RaiseExceptionNoCar()
@@ -66,16 +66,16 @@ def get_car_by_class(
 
 @router.get("/check_available_cars", response_model=List[schemas.car.CarResponse])
 def check_available_cars(
-    dateStart: datetime,
-    dateEnd:   datetime,
+    datestart: datetime,
+    dateend:   datetime,
     db: Session = Depends(appdb.GetDB)
 ):
     """
     Get list of all available cars in given time frame
     """
     dbBadCars = db.query(models.Rent).filter(
-        (dateStart < models.Rent.dateEnd) &
-        (dateEnd   > models.Rent.dateStart) &
+        (datestart < models.Rent.dateend) &
+        (dateend   > models.Rent.datestart) &
         (models.Rent.status == "Active") 
     ).all()
     dbBadIds = [models.Rent.id for car in dbBadCars]
