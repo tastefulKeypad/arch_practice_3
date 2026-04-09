@@ -25,5 +25,5 @@
 ```
 git clone https://github.com/tastefulKeypad/arch_practice_3.git
 cd arch_practice_3
-docker compose up -d
+docker-compose up -d --build
 ```

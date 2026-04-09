@@ -71,28 +71,28 @@ def populate_db(
         models.User(
             email="admin@example.com",
             name="Admin",
-            surName="Adminovich",
+            surname="Adminovich",
             password=passwordHash.hash("admin"),
             isAdmin=True
         ),
         models.User(
             email="user1@example.com",
             name="Pyotr",
-            surName="Novikov",
+            surname="Novikov",
             password=passwordHash.hash("user"),
             isAdmin=False
         ),
         models.User(
             email="user2@example.com",
             name="Sergei",
-            surName="Novikov",
+            surname="Novikov",
             password=passwordHash.hash("user"),
             isAdmin=False
         ),
         models.User(
             email="user3@example.com",
             name="Andrey",
-            surName="Kolmogorov",
+            surname="Kolmogorov",
             password=passwordHash.hash("user"),
             isAdmin=False
         )

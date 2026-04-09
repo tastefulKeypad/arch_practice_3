@@ -4,7 +4,7 @@ class UserBase(BaseModel):
     """Base schema with common user fields"""
     email: EmailStr
     name: str
-    surName: str
+    surname: str
     isAdmin: bool
 
 class UserCreate(UserBase):

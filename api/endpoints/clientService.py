@@ -83,7 +83,7 @@ def get_user_by_email(
 @router.get("/get_user_by_name_and_surname", response_model=List[schemas.user.UserResponse])
 def get_user_by_name_and_surname(
     name: str,
-    surName: str,
+    surname: str,
     tokenUser: Annotated[models.User, Depends(GetTokenUser)],
     db: Session = Depends(appdb.GetDB)
 ):
@@ -97,7 +97,7 @@ def get_user_by_name_and_surname(
 
     dbUser = db.query(models.User).filter(
         (models.User.name == name) &
-        (models.User.surName == surName)
+        (models.User.surname == surname)
     ).all()
 
     if not dbUser:

@@ -283,7 +283,7 @@ paths:
         schema:
           type: string
           title: Name
-      - name: surName
+      - name: surname
         in: query
         required: true
         schema:
@@ -577,7 +577,7 @@ components:
         name:
           type: string
           title: Name
-        surName:
+        surname:
           type: string
           title: Surname
         isAdmin:
@@ -590,7 +590,7 @@ components:
       required:
       - email
       - name
-      - surName
+      - surname
       - isAdmin
       - password
       title: UserCreate
@@ -604,7 +604,7 @@ components:
         name:
           type: string
           title: Name
-        surName:
+        surname:
           type: string
           title: Surname
         isAdmin:
@@ -617,7 +617,7 @@ components:
       required:
       - email
       - name
-      - surName
+      - surname
       - isAdmin
       - id
       title: UserResponse
