@@ -96,8 +96,8 @@ def get_user_by_name_and_surname(
         RaiseExceptionAdmin()
 
     dbUser = db.query(models.User).filter(
-        (models.User.name == name) &
-        (models.User.surname == surname)
+        models.User.name.ilike(f'%{name}%'),
+        models.User.surname.ilike(f'%{surname}%')
     ).all()
 
     if not dbUser:

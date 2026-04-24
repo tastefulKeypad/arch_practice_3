@@ -32,6 +32,8 @@ INSERT INTO users (email, name, surname, password, isAdmin) VALUES
     ('user8@example.com', 'Magnus', 'Carlsen', 
     '$argon2id$v=19$m=65536,t=3,p=4$J6d2FKqciAq1ge/mAxaubA$KRJ2K2+ITyxMIiJ6+9dLkELVpLZx57kQP06XRIig0dY', FALSE),
     ('user9@example.com', 'Anatoly', 'Karpov', 
+    '$argon2id$v=19$m=65536,t=3,p=4$mQb1M4P+QriojNSNU7OD0Q$tsik2hGDTZgDbF/eCIO1nmZygCSxbEMKydeO01Zyyzk', FALSE),
+    ('user10@example.com', 'Ana', 'Karpovna', 
     '$argon2id$v=19$m=65536,t=3,p=4$mQb1M4P+QriojNSNU7OD0Q$tsik2hGDTZgDbF/eCIO1nmZygCSxbEMKydeO01Zyyzk', FALSE);
     
 INSERT INTO rents (carId, userId, dateStart, dateEnd, status) VALUES

@@ -3,10 +3,10 @@
 - После каждого EXPLAIN ANALYZE запроса производился перезапуск docker контейнера для сброса кэша
 
 # Таблица таймингов
-| Function                | Base plan (ms) | Optimized plan (ms) | Base exec (ms) | Optimized exec (ms) |
+| Function                | Base plan (us) | Optimized plan (us) | Base exec (us) | Optimized exec (us) |
 |-------------------------|----------------|---------------------|----------------|---------------------|
 | GetUserByEmail          | 396            | 395                 | 83             | 44                  |
-| GetUserByNameAndSurname | 331            | 359                 | 125            | 45                  |
+| GetUserByNameAndSurname | 331            | 156                 | 117            | 68                  |
 | GetCarByClass           | 430            | 365                 | 453            | 64                  |
 | GetAvailableCars        | 413            | 611                 | 207            | 234                 |
 | GetRentActiveByUserId   | 328            | 508                 | 154            | 38                  |
@@ -29,15 +29,12 @@ Index Scan using users_email_key on users u  (cost=0.14..8.16 rows=1 width=957) 
  Execution Time: 0.083 ms
 
 
-EXPLAIN ANALYZE SELECT * FROM GetUserByNameAndSurname('Anatoly', 'Karpov');
-Seq Scan on users u  (cost=0.00..10.75 rows=1 width=957) (actual time=0.104..0.105 rows=2.00 loops=1)
-   Filter: (((name)::text = 'Anatoly'::text) AND ((surname)::text = 'Karpov'::text))
+EXPLAIN ANALYZE SELECT * FROM GetUserByNameAndSurname('AnA', 'pOv');
+ Seq Scan on users u  (cost=0.00..10.75 rows=1 width=957) (actual time=0.092..0.094 rows=3 loops=1)
+   Filter: (((name)::text ~~* '%AnA%'::text) AND ((surname)::text ~~* '%pOv%'::text))
    Rows Removed by Filter: 8
-   Buffers: shared read=1 dirtied=1
- Planning:
-   Buffers: shared hit=58 read=19
  Planning Time: 0.331 ms
- Execution Time: 0.125 ms
+ Execution Time: 0.117 ms
 
 
 EXPLAIN ANALYZE SELECT * FROM GetCarByClass(6);
@@ -121,15 +118,12 @@ EXPLAIN ANALYZE SELECT * FROM GetUserByEmail('user2@example.com');
  Execution Time: 0.044 ms
 
 
-EXPLAIN ANALYZE SELECT * FROM GetUserByNameAndSurname('Anatoly', 'Karpov');
- Index Scan using idxusersnamesurname on users u  (cost=0.14..8.16 rows=1 width=957) (actual time=0.024..0.024 rows=2.00 loops=1)
-   Index Cond: (((name)::text = 'Anatoly'::text) AND ((surname)::text = 'Karpov'::text))
-   Index Searches: 1
-   Buffers: shared read=2
- Planning:
-   Buffers: shared hit=84 read=21
- Planning Time: 0.359 ms
- Execution Time: 0.045 ms
+EXPLAIN ANALYZE SELECT * FROM GetUserByNameAndSurname('AnA', 'pOv');
+ Seq Scan on users u  (cost=0.00..10.75 rows=1 width=957) (actual time=0.027..0.030 rows=3 loops=1)
+   Filter: (((name)::text ~~* '%AnA%'::text) AND ((surname)::text ~~* '%pOv%'::text))
+   Rows Removed by Filter: 8
+ Planning Time: 0.156 ms
+ Execution Time: 0.068 ms
 
 
 EXPLAIN ANALYZE SELECT * FROM GetCarByClass(6);

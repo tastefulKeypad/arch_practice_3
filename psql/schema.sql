@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS cars CASCADE;
 DROP TABLE IF EXISTS rents CASCADE;
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
@@ -13,7 +14,8 @@ CREATE TABLE users (
 -- Used to find user based on his login (email)
 CREATE INDEX idxUsersEmail ON users(email);
 -- Used to find users that match given 'name' and 'surname' 
-CREATE INDEX idxUsersNameSurname ON users(name, surname);
+CREATE INDEX idxUsersNameSurname ON users 
+USING GIN (name gin_trgm_ops, surname gin_trgm_ops);
 
 CREATE TABLE cars (
     id SERIAL PRIMARY KEY,

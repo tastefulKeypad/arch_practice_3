@@ -69,7 +69,9 @@ RETURNS TABLE(
 BEGIN
     RETURN QUERY
     SELECT u.id, u.email, u.name, u.surname, u.isAdmin
-    FROM users u WHERE u.name = userName AND u.surname = userSurname;
+    FROM users u WHERE 
+    u.name ILIKE '%' || userName || '%' AND 
+    u.surname ILIKE '%' || userSurname || '%';
 END;
 $$ LANGUAGE plpgsql;
 
